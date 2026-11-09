@@ -1,0 +1,102 @@
+{
+  "validation": {
+    "baseline": {
+      "raw_mae": 32.393,
+      "raw_rmse": 41.929,
+      "raw_wape": 46.59,
+      "constrained_mae": 32.393,
+      "constrained_rmse": 41.929,
+      "constrained_wape": 46.59
+    },
+    "random_forest": {
+      "raw_mae": 16.176,
+      "raw_rmse": 20.981,
+      "raw_wape": 23.27,
+      "constrained_mae": 16.176,
+      "constrained_rmse": 20.981,
+      "constrained_wape": 23.27
+    },
+    "xgboost": {
+      "raw_mae": 14.875,
+      "raw_rmse": 19.667,
+      "raw_wape": 21.4,
+      "constrained_mae": 14.875,
+      "constrained_rmse": 19.667,
+      "constrained_wape": 21.4
+    }
+  },
+  "test": {
+    "baseline": {
+      "raw_mae": 30.009,
+      "raw_rmse": 39.05,
+      "raw_wape": 41.75,
+      "constrained_mae": 30.009,
+      "constrained_rmse": 39.05,
+      "constrained_wape": 41.75
+    },
+    "random_forest": {
+      "raw_mae": 16.465,
+      "raw_rmse": 22.444,
+      "raw_wape": 22.91,
+      "constrained_mae": 16.465,
+      "constrained_rmse": 22.444,
+      "constrained_wape": 22.91
+    },
+    "xgboost": {
+      "raw_mae": 15.347,
+      "raw_rmse": 20.751,
+      "raw_wape": 21.35,
+      "constrained_mae": 15.347,
+      "constrained_rmse": 20.751,
+      "constrained_wape": 21.35
+    }
+  },
+  "test_segmented_analysis": {
+    "low_demand (<40% occ)": {
+      "raw_mae": 13.94,
+      "raw_rmse": 19.264,
+      "raw_wape": 25.37,
+      "constrained_mae": 13.94,
+      "constrained_rmse": 19.264,
+      "constrained_wape": 25.37,
+      "sample_count": 325
+    },
+    "moderate_demand (40-75% occ)": {
+      "raw_mae": 19.577,
+      "raw_rmse": 24.801,
+      "raw_wape": 16.27,
+      "constrained_mae": 19.577,
+      "constrained_rmse": 24.801,
+      "constrained_wape": 16.27,
+      "sample_count": 103
+    },
+    "high_demand (>75% occ)": {
+      "raw_mae": 20.749,
+      "raw_rmse": 22.667,
+      "raw_wape": 10.3,
+      "constrained_mae": 20.749,
+      "constrained_rmse": 22.667,
+      "constrained_wape": 10.3,
+      "sample_count": 4
+    },
+    "cold_start_shows": {
+      "raw_mae": 23.373,
+      "raw_rmse": 32.204,
+      "raw_wape": 18.39,
+      "constrained_mae": 23.373,
+      "constrained_rmse": 32.204,
+      "constrained_wape": 18.39,
+      "sample_count": 36
+    },
+    "mature_shows": {
+      "raw_mae": 14.617,
+      "raw_rmse": 19.377,
+      "raw_wape": 21.86,
+      "constrained_mae": 14.617,
+      "constrained_rmse": 19.377,
+      "constrained_wape": 21.86,
+      "sample_count": 396
+    }
+  },
+  "champion_model": "xgboost"
+}

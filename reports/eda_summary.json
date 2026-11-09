@@ -1,0 +1,78 @@
+{
+  "total_records": 2880,
+  "columns": [
+    "show_id",
+    "show_datetime",
+    "show_date",
+    "show_time",
+    "day_of_week",
+    "is_weekend",
+    "is_holiday",
+    "time_of_day_category",
+    "screen_id",
+    "screen_type",
+    "screen_capacity",
+    "ticket_price",
+    "movie_id",
+    "movie_title",
+    "genre",
+    "release_date",
+    "days_since_release",
+    "movie_popularity",
+    "decay_rate",
+    "tickets_sold",
+    "occupancy_rate",
+    "revenue",
+    "empty_seats",
+    "historical_movie_demand",
+    "historical_genre_demand",
+    "previous_show_occupancy",
+    "is_cold_start",
+    "historical_shows_count",
+    "demand_category",
+    "is_synthetic",
+    "split"
+  ],
+  "duplicates": 0,
+  "null_counts": {},
+  "chronological_splits": {
+    "train_min": "2024-01-01 10:15:00",
+    "train_max": "2024-05-04 22:45:00",
+    "val_min": "2024-05-05 10:15:00",
+    "val_max": "2024-06-01 22:45:00",
+    "test_min": "2024-06-02 10:15:00",
+    "test_max": "2024-06-28 22:45:00",
+    "train_val_leakage": false,
+    "val_test_leakage": false
+  },
+  "demand_statistics": {
+    "tickets_sold_mean": 74.64583333333333,
+    "tickets_sold_std": 51.165447369445104,
+    "tickets_sold_min": 6,
+    "tickets_sold_max": 343,
+    "occupancy_rate_mean": 0.326020625,
+    "revenue_mean": 28701.957131944448,
+    "cold_start_count": 308,
+    "cold_start_pct": 10.694444444444445
+  },
+  "weekend_occupancy": {
+    "0": 0.2931106971153846,
+    "1": 0.3710552631578947
+  },
+  "time_of_day_occupancy": {
+    "Evening": 0.4205038194444444,
+    "Matinee": 0.3002528911564626,
+    "Morning": 0.24648180212014134,
+    "Night": 0.36320836298932385
+  },
+  "genre_occupancy": {
+    "Action": 0.34465958702064897,
+    "Animation": 0.40499659863945575,
+    "Comedy": 0.249028,
+    "Drama": 0.2726636711281071,
+    "Horror": 0.2654463054187192,
+    "Romance": 0.21271148936170214,
+    "Sci-Fi": 0.3818089665653495,
+    "Thriller": 0.3276009063444109
+  }
+}

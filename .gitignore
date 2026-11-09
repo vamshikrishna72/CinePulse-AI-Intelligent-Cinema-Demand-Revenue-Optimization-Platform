@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Virtual Environment
+.venv/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & Secrets
+*.log
+.env
+
+# Node & Frontend
+node_modules/
+frontend/dist/
+frontend/.oxlintrc.json
+frontend-temp/
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
