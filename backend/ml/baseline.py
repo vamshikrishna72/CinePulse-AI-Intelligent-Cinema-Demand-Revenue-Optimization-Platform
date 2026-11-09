@@ -43,3 +43,4 @@ class CapacityAdjustedHistoricalBaseline(BaseEstimator, RegressorMixin):
             preds.append(pred_tickets)
 
         return np.array(preds)
+

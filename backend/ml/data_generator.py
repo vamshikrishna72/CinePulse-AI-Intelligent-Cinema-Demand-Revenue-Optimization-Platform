@@ -34,7 +34,7 @@ SHOW_SLOTS = [
     {"time": "22:45", "period": "Night"},
 ]
 
-# Movie Catalog with diverse release dates, genres, and popularity scores
+# Movie Catalog with diverse release dates, genres, popularity scores, and cinematic poster URLs
 MOVIES_CATALOG = [
     {
         "movie_id": "MOV-001",
@@ -44,6 +44,7 @@ MOVIES_CATALOG = [
         "popularity": 8.8,
         "decay_rate": 0.035,
         "price_premium": 1.15,
+        "poster_url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-002",
@@ -53,6 +54,7 @@ MOVIES_CATALOG = [
         "popularity": 7.9,
         "decay_rate": 0.045,
         "price_premium": 1.10,
+        "poster_url": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-003",
@@ -62,6 +64,7 @@ MOVIES_CATALOG = [
         "popularity": 6.8,
         "decay_rate": 0.025,
         "price_premium": 0.95,
+        "poster_url": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-004",
@@ -71,6 +74,7 @@ MOVIES_CATALOG = [
         "popularity": 7.2,
         "decay_rate": 0.040,
         "price_premium": 1.00,
+        "poster_url": "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-005",
@@ -80,6 +84,7 @@ MOVIES_CATALOG = [
         "popularity": 6.5,
         "decay_rate": 0.055,
         "price_premium": 1.00,
+        "poster_url": "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-006",
@@ -89,6 +94,7 @@ MOVIES_CATALOG = [
         "popularity": 9.1,
         "decay_rate": 0.030,
         "price_premium": 1.20,
+        "poster_url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-007",
@@ -98,6 +104,7 @@ MOVIES_CATALOG = [
         "popularity": 7.5,
         "decay_rate": 0.040,
         "price_premium": 1.05,
+        "poster_url": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-008",
@@ -107,6 +114,7 @@ MOVIES_CATALOG = [
         "popularity": 6.2,
         "decay_rate": 0.035,
         "price_premium": 0.95,
+        "poster_url": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-009",
@@ -116,6 +124,7 @@ MOVIES_CATALOG = [
         "popularity": 9.4,
         "decay_rate": 0.032,
         "price_premium": 1.25,
+        "poster_url": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-010",
@@ -125,6 +134,7 @@ MOVIES_CATALOG = [
         "popularity": 7.4,
         "decay_rate": 0.048,
         "price_premium": 1.05,
+        "poster_url": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-011",
@@ -134,6 +144,7 @@ MOVIES_CATALOG = [
         "popularity": 5.9,
         "decay_rate": 0.022,
         "price_premium": 0.90,
+        "poster_url": "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-012",
@@ -143,6 +154,7 @@ MOVIES_CATALOG = [
         "popularity": 8.0,
         "decay_rate": 0.038,
         "price_premium": 1.10,
+        "poster_url": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-013",
@@ -152,6 +164,7 @@ MOVIES_CATALOG = [
         "popularity": 6.9,
         "decay_rate": 0.050,
         "price_premium": 1.00,
+        "poster_url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
     },
     {
         "movie_id": "MOV-014",
@@ -161,6 +174,7 @@ MOVIES_CATALOG = [
         "popularity": 8.2,
         "decay_rate": 0.038,
         "price_premium": 1.15,
+        "poster_url": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&auto=format&fit=crop&q=80",
     },
 ]
 
@@ -266,6 +280,7 @@ def generate_cinema_dataset(
                     "movie_id": movie["movie_id"],
                     "movie_title": movie["title"],
                     "genre": movie["genre"],
+                    "poster_url": movie.get("poster_url", "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80"),
                     "release_date": movie["release_date"].strftime("%Y-%m-%d"),
                     "days_since_release": days_since_release,
                     "movie_popularity": movie["popularity"],

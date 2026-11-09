@@ -348,3 +348,4 @@ Use this structured walkthrough for the submission demonstration video:
 - **Internship Role:** AI & Machine Learning Intern
 - **Company:** Algions AI Labs Private Limited
 - **Declaration:** All machine learning pipelines, feature engineering routines, API endpoints, and frontend user interfaces in this repository were designed and implemented specifically for this assessment. Zero hardcoded predictions or fake API mocks were used.
+

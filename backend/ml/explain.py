@@ -105,3 +105,4 @@ class CinePulseExplainer:
             "top_negative": top_negative,
             "executive_explanation": narrative,
         }
+

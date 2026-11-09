@@ -16,3 +16,4 @@ def get_predictor() -> CinePulsePredictor:
     if _predictor_instance is None:
         _predictor_instance = CinePulsePredictor(ARTIFACTS_DIR)
     return _predictor_instance
+

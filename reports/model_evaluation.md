@@ -96,3 +96,4 @@ Top features driving predictive gain in the champion XGBoost model:
 ## 7. Conclusions & Recommendation
 
 The empirical findings confirm that **XGBoost Regressor** is the optimal production engine for CinePulse AI. It delivers substantial error reductions over the baseline while pairing seamlessly with SHAP TreeExplainer for real-time local interpretability.
+

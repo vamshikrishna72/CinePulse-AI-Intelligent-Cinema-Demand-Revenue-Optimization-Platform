@@ -27,3 +27,4 @@ def get_health_status():
         "system_memory_used_pct": mem.percent,
         "mode": "production_inference",
     }
+

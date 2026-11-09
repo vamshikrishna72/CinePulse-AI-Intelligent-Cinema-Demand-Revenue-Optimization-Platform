@@ -79,3 +79,4 @@ export const OccupancyGauge: React.FC<OccupancyGaugeProps> = ({
     </div>
   );
 };
+

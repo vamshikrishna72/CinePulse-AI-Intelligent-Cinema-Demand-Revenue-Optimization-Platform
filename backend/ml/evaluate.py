@@ -139,3 +139,4 @@ if __name__ == "__main__":
     art_path = os.path.join(PROJECT_ROOT, "backend", "artifacts")
     rep_path = os.path.join(PROJECT_ROOT, "reports")
     generate_evaluation_diagnostics(art_path, rep_path)
+

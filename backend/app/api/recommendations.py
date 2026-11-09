@@ -21,3 +21,4 @@ def get_operational_recommendations():
         return recommendation_service.generate_recommendations()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Recommendation engine error: {str(e)}")
+

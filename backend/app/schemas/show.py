@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field, field_validator
 class ShowPredictionInput(BaseModel):
     movie_title: str = Field(default="Quantum Horizon", description="Title of the motion picture")
     genre: str = Field(default="Sci-Fi", description="Primary film genre")
+    poster_url: Optional[str] = Field(default=None, description="Theatrical poster artwork URL")
     release_date: Optional[str] = Field(default="2024-06-01", description="Film theatrical release date (YYYY-MM-DD)")
     show_date: str = Field(default="2024-06-15", description="Target show screening date (YYYY-MM-DD)")
     show_time: str = Field(default="19:45", description="Target screening start time (HH:MM)")
@@ -54,6 +55,7 @@ class ExplanationPayload(BaseModel):
 class ShowPredictionOutput(BaseModel):
     movie_title: str
     genre: str
+    poster_url: Optional[str] = None
     show_date: str
     show_time: str
     screen_id: str
@@ -125,6 +127,7 @@ class RecommendationItem(BaseModel):
     suggested_action: str
     affected_show_id: Optional[str] = None
     movie_title: Optional[str] = None
+    poster_url: Optional[str] = None
     screen_id: Optional[str] = None
     show_time: Optional[str] = None
     predicted_occupancy_pct: Optional[float] = None
@@ -136,3 +139,4 @@ class ValidationResponse(BaseModel):
     message: str
     sanitized_input: Optional[Dict[str, Any]] = None
     errors: Optional[List[str]] = None
+

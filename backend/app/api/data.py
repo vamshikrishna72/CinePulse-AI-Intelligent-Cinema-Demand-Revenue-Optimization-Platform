@@ -50,6 +50,7 @@ def get_cinema_metadata():
                 "genre": m["genre"],
                 "popularity": m["popularity"],
                 "decay_rate": m["decay_rate"],
+                "poster_url": m.get("poster_url", "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80"),
             }
             for m in MOVIES_CATALOG
         ],
@@ -58,3 +59,4 @@ def get_cinema_metadata():
         "time_slots": TIME_OF_DAY_LIST,
         "screen_types": SCREEN_TYPE_LIST,
     }
+

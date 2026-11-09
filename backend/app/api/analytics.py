@@ -19,3 +19,4 @@ def get_demand_analytics():
         return analytics_service.get_demand_analytics()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Analytics query error: {str(e)}")
+

@@ -157,3 +157,4 @@ if __name__ == "__main__":
     raw_path = os.path.join(project_root, "data", "raw", "cinema_shows_synthetic.csv")
     rep_dir = os.path.join(project_root, "reports")
     run_eda(raw_path, rep_dir)
+

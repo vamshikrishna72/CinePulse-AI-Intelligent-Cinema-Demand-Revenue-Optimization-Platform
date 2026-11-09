@@ -230,3 +230,4 @@ CinePulse integrates SHAP (`shap.TreeExplainer`) for local and global model inte
 1. **Live Ticketing API Integrations:** Ingest real-time pre-booking velocity curves (e.g., reservations made at $T-72\text{h}$, $T-48\text{h}$, and $T-24\text{h}$).
 2. **PostgreSQL Migration:** Transition from the current high-performance file/SQLite storage to a distributed PostgreSQL database for multi-multiplex chain deployments.
 3. **Causal ML (Double Machine Learning):** Implement EconML/DoWhy to estimate unconfounded price elasticity curves across varied demographic catchments.
+

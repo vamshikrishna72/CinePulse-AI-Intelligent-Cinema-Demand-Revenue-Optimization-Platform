@@ -22,6 +22,7 @@ from backend.ml.explain import CinePulseExplainer
 from backend.ml.features import (
     ALL_MODEL_FEATURES,
     engineer_show_features,
+    get_movie_poster,
 )
 
 
@@ -98,9 +99,14 @@ class CinePulsePredictor:
         if include_explanation:
             explanation_data = self.explainer.explain_instance(X_proc, engineered)
 
+        m_title = engineered.get("movie_title", "Untitled Movie")
+        m_genre = engineered.get("genre", "Unknown")
+        poster = engineered.get("poster_url") or get_movie_poster(m_title, m_genre)
+
         return {
-            "movie_title": engineered.get("movie_title", "Untitled Movie"),
-            "genre": engineered.get("genre", "Unknown"),
+            "movie_title": m_title,
+            "genre": m_genre,
+            "poster_url": poster,
             "show_date": engineered.get("show_date"),
             "show_time": engineered.get("show_time"),
             "screen_id": engineered.get("screen_id", "Screen-1"),
@@ -130,3 +136,4 @@ class CinePulsePredictor:
     def batch_predict(self, shows_list: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """Run batch inference over a list of shows."""
         return [self.predict_single_show(s, include_explanation=False) for s in shows_list]
+

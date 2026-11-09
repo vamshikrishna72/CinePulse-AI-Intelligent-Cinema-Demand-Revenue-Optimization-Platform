@@ -86,7 +86,7 @@ export const apiService = {
 
   // Cinema Metadata
   async getMetadata(): Promise<{
-    movies: Array<{ id: string; title: string; genre: string; popularity: number; decay_rate: number }>;
+    movies: Array<{ id: string; title: string; genre: string; popularity: number; decay_rate: number; poster_url?: string }>;
     screens: Array<{ screen_id: string; screen_type: string; capacity: number; base_price: number }>;
     genres: string[];
     time_slots: string[];
@@ -95,3 +95,4 @@ export const apiService = {
     return fetchJson(`${API_BASE_URL}/data/metadata`);
   },
 };
+

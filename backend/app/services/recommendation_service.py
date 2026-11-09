@@ -9,6 +9,7 @@ import pandas as pd
 
 from backend.app.core.config import ARTIFACTS_DIR
 from backend.app.schemas.show import RecommendationItem
+from backend.ml.features import get_movie_poster
 
 
 class RecommendationService:
@@ -46,6 +47,9 @@ class RecommendationService:
             show_id = str(row["show_id"])
             price = float(row["ticket_price"])
 
+            genre = str(row.get("genre", "Action"))
+            poster_url = get_movie_poster(m_title, genre)
+
             # 1. High Occupancy in Smaller Screen -> Upsize Screen
             if occ_pct >= 75.0 and cap <= 180 and len([r for r in recommendations if r.type == "screen_reallocation"]) < 4:
                 unmet_demand_est = int(round(cap * 0.25))
@@ -63,6 +67,7 @@ class RecommendationService:
                         suggested_action=f"Reallocate '{m_title}' from {s_id} ({cap} seats) to Screen-1 (350 seats) or Screen-2 (250 seats).",
                         affected_show_id=show_id,
                         movie_title=m_title,
+                        poster_url=poster_url,
                         screen_id=s_id,
                         show_time=s_time,
                         predicted_occupancy_pct=occ_pct,
@@ -87,6 +92,7 @@ class RecommendationService:
                         suggested_action=f"Shift screening to Screen-3 (180 seats) or Screen-4 (120 seats); release {s_id} for higher-demand titles.",
                         affected_show_id=show_id,
                         movie_title=m_title,
+                        poster_url=poster_url,
                         screen_id=s_id,
                         show_time=s_time,
                         predicted_occupancy_pct=occ_pct,
@@ -110,6 +116,7 @@ class RecommendationService:
                         suggested_action="Deploy +2 F&B concession attendants and +1 ticket usher between T-45m and T+10m.",
                         affected_show_id=show_id,
                         movie_title=m_title,
+                        poster_url=poster_url,
                         screen_id=s_id,
                         show_time=s_time,
                         predicted_occupancy_pct=occ_pct,
@@ -133,6 +140,7 @@ class RecommendationService:
                         suggested_action="Perform mandatory pre-booking velocity review at T-12h and T-4h before locking auditorium allocations.",
                         affected_show_id=show_id,
                         movie_title=m_title,
+                        poster_url=poster_url,
                         screen_id=s_id,
                         show_time=s_time,
                         predicted_occupancy_pct=occ_pct,
@@ -156,6 +164,7 @@ class RecommendationService:
                         suggested_action="Activate online 20% bundle discount (Popcorn + Ticket combo) or loyalty member credits.",
                         affected_show_id=show_id,
                         movie_title=m_title,
+                        poster_url=poster_url,
                         screen_id=s_id,
                         show_time=s_time,
                         predicted_occupancy_pct=occ_pct,
@@ -168,3 +177,4 @@ class RecommendationService:
                 break
 
         return recommendations
+

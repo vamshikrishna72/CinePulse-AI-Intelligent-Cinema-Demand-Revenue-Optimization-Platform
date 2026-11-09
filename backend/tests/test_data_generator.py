@@ -69,3 +69,4 @@ def test_chronological_splits_leakage_free():
     # Verify strict time ordering without overlap
     assert train_dates.max() < val_dates.min(), "Leakage detected: train split overlaps into validation split!"
     assert val_dates.max() < test_dates.min(), "Leakage detected: validation split overlaps into test split!"
+

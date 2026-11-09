@@ -358,3 +358,4 @@ export const ModelIntelligencePage: React.FC = () => {
     </div>
   );
 };
+

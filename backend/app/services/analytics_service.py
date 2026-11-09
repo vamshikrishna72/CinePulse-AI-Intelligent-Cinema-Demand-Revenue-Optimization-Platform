@@ -153,3 +153,4 @@ class AnalyticsService:
             "time_of_day_patterns": tod_patterns,
             "demand_distribution": demand_dist,
         }
+

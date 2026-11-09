@@ -25,3 +25,4 @@ def simulate_counterfactual_show(request: SimulationRequest):
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Simulation error: {str(e)}")
+

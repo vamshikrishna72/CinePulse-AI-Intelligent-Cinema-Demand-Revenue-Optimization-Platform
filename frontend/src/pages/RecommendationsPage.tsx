@@ -9,9 +9,13 @@ import {
   DollarSign,
   Sparkles,
   SlidersHorizontal,
+  Film,
+  Calendar,
+  Clock,
 } from 'lucide-react';
 import { apiService } from '../services/api';
 import { RecommendationItem } from '../types/api';
+import { getMoviePoster } from '../utils/movieCatalog';
 
 interface RecommendationsPageProps {
   onNavigateToSimulator?: () => void;
@@ -106,20 +110,20 @@ export const RecommendationsPage: React.FC<RecommendationsPageProps> = ({
             <Lightbulb className="w-3.5 h-3.5" />
             <span>Rule-Governed Prescriptive Analytics</span>
           </div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-[#F6F0E8] mt-1">
+          <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight text-[#F6F0E8] mt-1">
             Smart Operational Recommendations
           </h1>
-          <p className="text-xs text-[#89858C] max-w-2xl mt-0.5">
-            Prescriptive suggestions translated from XGBoost attendance forecasts to optimize screen capacity allocation, concession staffing, and mid-week pricing.
+          <p className="text-xs lg:text-sm text-[#89858C] max-w-2xl mt-0.5">
+            Prescriptive suggestions translated from XGBoost attendance forecasts to optimize auditorium allocation, concession staffing, and mid-week pricing.
           </p>
         </div>
 
         {/* Implemented Counter */}
-        <div className="p-3 rounded-xl bg-[#241018] border border-[#D8B46A]/20 text-right">
-          <span className="text-[10px] text-[#89858C] uppercase tracking-wider block">
+        <div className="p-3.5 rounded-xl bg-[#241018] border border-[#D8B46A]/25 text-right shadow-md">
+          <span className="text-[10px] text-[#89858C] uppercase tracking-wider block font-bold">
             Actions Acknowledged
           </span>
-          <span className="text-lg font-extrabold text-[#D8B46A]">
+          <span className="text-xl font-black text-[#D8B46A]">
             {implementedIds.size} / {recommendations.length}
           </span>
         </div>
@@ -153,6 +157,7 @@ export const RecommendationsPage: React.FC<RecommendationsPageProps> = ({
         {filteredRecs.map((rec) => {
           const Icon = getCategoryIcon(rec.type);
           const isDone = implementedIds.has(rec.id);
+          const poster = rec.poster_url || getMoviePoster(rec.movie_title);
 
           return (
             <div
@@ -163,14 +168,20 @@ export const RecommendationsPage: React.FC<RecommendationsPageProps> = ({
                   : 'bg-[#241018]/55 border-[#D8B46A]/25 hover:border-[#D8B46A]/50 shadow-xl'
               }`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="flex items-start space-x-3.5">
-                  <div className="p-2.5 rounded-xl bg-[#17171D] text-[#D8B46A] border border-[#D8B46A]/25 flex-shrink-0 mt-0.5">
-                    <Icon className="w-5 h-5" />
-                  </div>
+                  {/* Movie Poster Image Thumbnail */}
+                  <img
+                    src={poster}
+                    alt={rec.movie_title || 'Movie'}
+                    className="w-14 h-20 object-cover rounded-xl border border-[#D8B46A]/30 shadow-md flex-shrink-0"
+                  />
 
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-[#17171D] text-[#D8B46A] border border-[#D8B46A]/25 flex-shrink-0">
+                        <Icon className="w-3.5 h-3.5" />
+                      </div>
                       <h3 className="text-sm font-bold text-[#F6F0E8]">{rec.title}</h3>
                       <span
                         className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
@@ -184,8 +195,8 @@ export const RecommendationsPage: React.FC<RecommendationsPageProps> = ({
                         {rec.priority} Priority
                       </span>
                       {rec.predicted_occupancy_pct && (
-                        <span className="text-[10px] text-[#D8B46A] font-semibold">
-                          Occupancy: {rec.predicted_occupancy_pct}%
+                        <span className="text-[10px] text-[#D8B46A] font-semibold bg-[#D8B46A]/10 px-2 py-0.5 rounded-full border border-[#D8B46A]/20">
+                          Forecast Occupancy: {rec.predicted_occupancy_pct}%
                         </span>
                       )}
                     </div>
@@ -193,6 +204,14 @@ export const RecommendationsPage: React.FC<RecommendationsPageProps> = ({
                     <p className="text-xs text-[#89858C] leading-relaxed max-w-2xl">
                       {rec.description}
                     </p>
+
+                    {rec.movie_title && (
+                      <div className="flex items-center space-x-3 text-[11px] text-[#89858C]">
+                        <span className="font-semibold text-[#F6F0E8]">{rec.movie_title}</span>
+                        {rec.screen_id && <span>• {rec.screen_id}</span>}
+                        {rec.show_time && <span>• {rec.show_time}</span>}
+                      </div>
+                    )}
                   </div>
                 </div>
 

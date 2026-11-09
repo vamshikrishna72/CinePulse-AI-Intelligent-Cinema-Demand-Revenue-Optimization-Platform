@@ -65,6 +65,46 @@ GENRE_PRIORS: Dict[str, float] = {
     "Romance": 0.40,
 }
 
+# High-resolution curated cinema movie poster and backdrop imagery
+MOVIE_POSTERS: Dict[str, str] = {
+    "Quantum Horizon": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+    "Apex Velocity": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80",
+    "Shadows of Kyoto": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&auto=format&fit=crop&q=80",
+    "Laughter Therapy": "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&auto=format&fit=crop&q=80",
+    "The Haunted Abbey": "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600&auto=format&fit=crop&q=80",
+    "Kingdom of Ice & Wonder": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80",
+    "Midnight Protocol": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80",
+    "Letters from Verona": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&auto=format&fit=crop&q=80",
+    "Cosmic Odyssey II": "https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=600&auto=format&fit=crop&q=80",
+    "Undercover Rogue": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+    "The Last Symphony": "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&auto=format&fit=crop&q=80",
+    "Feline Adventures 3D": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&auto=format&fit=crop&q=80",
+    "Spectral Whispers": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+    "Neon Syndicate": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=600&auto=format&fit=crop&q=80",
+}
+
+GENRE_POSTERS: Dict[str, str] = {
+    "Sci-Fi": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+    "Action": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80",
+    "Drama": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&auto=format&fit=crop&q=80",
+    "Comedy": "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=600&auto=format&fit=crop&q=80",
+    "Horror": "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=600&auto=format&fit=crop&q=80",
+    "Animation": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=80",
+    "Romance": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&auto=format&fit=crop&q=80",
+    "Thriller": "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&auto=format&fit=crop&q=80",
+}
+
+
+def get_movie_poster(movie_title: str, genre: str = "Action") -> str:
+    """Retrieve verified high-resolution poster artwork for movie or fallback to genre."""
+    if movie_title in MOVIE_POSTERS:
+        return MOVIE_POSTERS[movie_title]
+    for k, v in MOVIE_POSTERS.items():
+        if k.lower() in movie_title.lower() or movie_title.lower() in k.lower():
+            return v
+    return GENRE_POSTERS.get(genre, GENRE_POSTERS["Sci-Fi"])
+
+
 
 def derive_time_of_day_category(show_time_str: str) -> str:
     """Classify 24-hour show time into standardized operational periods."""

@@ -133,3 +133,4 @@ def test_data_validation_endpoint():
     })
     # Pydantic schema will catch ge=10 or return 422
     assert invalid_resp.status_code == 422
+

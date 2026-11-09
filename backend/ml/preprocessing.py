@@ -105,3 +105,4 @@ def split_processed_data(
     y_test = test_df[TARGET_VARIABLE]
 
     return X_train, y_train, X_val, y_val, X_test, y_test
+

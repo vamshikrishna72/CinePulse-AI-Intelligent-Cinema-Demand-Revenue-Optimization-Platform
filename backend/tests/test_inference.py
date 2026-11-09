@@ -73,3 +73,4 @@ def test_capacity_constraint_edge_cases(predictor):
     }
     res = predictor.predict_single_show(tiny_show, include_explanation=False)
     assert 0 <= res["predicted_tickets_sold"] <= 25, "Prediction breached tiny capacity constraint!"
+

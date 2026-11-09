@@ -24,6 +24,7 @@ export interface ExplanationPayload {
 export interface ShowPredictionInput {
   movie_title: string;
   genre: string;
+  poster_url?: string;
   release_date?: string;
   show_date: string;
   show_time: string;
@@ -46,6 +47,7 @@ export interface ShowPredictionInput {
 export interface ShowPredictionOutput {
   movie_title: string;
   genre: string;
+  poster_url?: string;
   show_date: string;
   show_time: string;
   screen_id: string;
@@ -115,6 +117,7 @@ export interface RecommendationItem {
   suggested_action: string;
   affected_show_id?: string;
   movie_title?: string;
+  poster_url?: string;
   screen_id?: string;
   show_time?: string;
   predicted_occupancy_pct?: number;
@@ -168,3 +171,4 @@ export interface DemandAnalyticsResponse {
   time_of_day_patterns: TimeOfDayPatternItem[];
   demand_distribution: Record<string, number>;
 }
+

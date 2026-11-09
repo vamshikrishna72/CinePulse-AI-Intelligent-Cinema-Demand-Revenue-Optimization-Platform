@@ -92,3 +92,4 @@ def test_preprocessor_fit_transform():
     assert isinstance(matrix, np.ndarray)
     assert matrix.shape[0] == 2
     assert matrix.shape[1] == len(preprocessor.get_feature_names_out())
+

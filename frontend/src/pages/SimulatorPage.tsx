@@ -11,9 +11,13 @@ import {
   Info,
   RefreshCw,
   CheckCircle2,
+  Film,
+  Calendar,
+  Clock,
 } from 'lucide-react';
 import { apiService } from '../services/api';
 import { ShowPredictionInput, SimulationResponse } from '../types/api';
+import { MOVIE_CATALOG, getMoviePoster } from '../utils/movieCatalog';
 
 const DEFAULT_BASE_SHOW: ShowPredictionInput = {
   movie_title: 'Apex Velocity',
@@ -25,7 +29,7 @@ const DEFAULT_BASE_SHOW: ShowPredictionInput = {
   screen_type: 'Standard Audi',
   screen_capacity: 180,
   ticket_price: 220,
-  movie_popularity: 7.9,
+  movie_popularity: 8.5,
   days_since_release: 36,
   is_weekend: 0,
   historical_movie_demand: 0.42,
@@ -47,6 +51,23 @@ export const SimulatorPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const handleMovieChange = (movie: (typeof MOVIE_CATALOG)[0]) => {
+    const updatedBase: ShowPredictionInput = {
+      ...baseScenario,
+      movie_title: movie.title,
+      genre: movie.genre,
+      movie_popularity: movie.popularity,
+    };
+    setBaseScenario(updatedBase);
+    setSimScenario((prev) => ({
+      ...prev,
+      movie_title: movie.title,
+      genre: movie.genre,
+      movie_popularity: movie.popularity,
+    }));
+    setSimulationResult(null);
+  };
+
   const handleSimFieldChange = (field: keyof ShowPredictionInput, value: any) => {
     setSimScenario((prev) => ({
       ...prev,
@@ -67,19 +88,22 @@ export const SimulatorPage: React.FC = () => {
     }
   };
 
+  const basePoster = getMoviePoster(baseScenario.movie_title, baseScenario.genre);
+  const simPoster = getMoviePoster(simScenario.movie_title, simScenario.genre);
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
         <div className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-[#D8B46A]/15 text-[#D8B46A] text-xs font-semibold border border-[#D8B46A]/30">
           <SlidersHorizontal className="w-3.5 h-3.5" />
-          <span>Counterfactual Reasoning Engine</span>
+          <span>Counterfactual Operational Reasoning</span>
         </div>
-        <h1 className="text-2xl font-extrabold tracking-tight text-[#F6F0E8] mt-1">
+        <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight text-[#F6F0E8] mt-1">
           What-If Demand Simulator
         </h1>
-        <p className="text-xs text-[#89858C] max-w-3xl mt-0.5">
-          Simulate counterfactual changes in showtime slot, ticket pricing, auditorium allocation, and day-of-week placement. Both states are re-evaluated using the actual production XGBoost model pipeline.
+        <p className="text-xs lg:text-sm text-[#89858C] max-w-3xl mt-0.5">
+          Simulate operational adjustments in showtime slot, ticket pricing, auditorium allocation, and weekend scheduling. Both baseline and counterfactual states are re-evaluated using the actual production XGBoost model pipeline.
         </p>
       </div>
 
@@ -96,20 +120,82 @@ export const SimulatorPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Visual Movie Selector for Simulation */}
+      <div className="p-4 rounded-2xl bg-[#241018]/45 border border-[#D8B46A]/20 backdrop-blur-md space-y-2.5">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-[#F6F0E8] uppercase tracking-wider flex items-center space-x-2">
+            <Film className="w-4 h-4 text-[#D8B46A]" />
+            <span>Select Movie to Simulate:</span>
+          </span>
+          <span className="text-[10px] text-[#89858C]">
+            Active: <strong className="text-[#D8B46A]">{baseScenario.movie_title}</strong>
+          </span>
+        </div>
+        <div className="flex items-center space-x-2.5 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#D8B46A]/30">
+          {MOVIE_CATALOG.slice(0, 8).map((movie) => {
+            const isSelected = baseScenario.movie_title.toLowerCase() === movie.title.toLowerCase();
+            return (
+              <button
+                key={movie.id}
+                type="button"
+                onClick={() => handleMovieChange(movie)}
+                className={`flex-shrink-0 flex items-center space-x-2.5 p-1.5 pr-3 rounded-xl border transition-all ${
+                  isSelected
+                    ? 'border-[#D8B46A] bg-[#241018] ring-1 ring-[#D8B46A]/50 shadow-md'
+                    : 'border-[#89858C]/20 bg-[#17171D]/60 hover:border-[#D8B46A]/40'
+                }`}
+              >
+                <img
+                  src={movie.poster_url}
+                  alt={movie.title}
+                  className="w-8 h-11 object-cover rounded-md border border-[#D8B46A]/20 flex-shrink-0"
+                />
+                <div className="text-left">
+                  <div className="text-[11px] font-bold text-[#F6F0E8] truncate max-w-[100px]">
+                    {movie.title}
+                  </div>
+                  <div className="text-[9px] text-[#89858C]">{movie.genre}</div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Interactive Workbench: Dual Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Column: Baseline Scenario */}
-        <div className="p-5 rounded-2xl bg-[#241018]/45 border border-[#89858C]/20 backdrop-blur-md space-y-4">
+        <div className="p-5 rounded-2xl bg-[#241018]/45 border border-[#89858C]/20 backdrop-blur-md space-y-4 shadow-xl">
           <div className="flex items-center justify-between border-b border-[#89858C]/20 pb-3">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#89858C] px-2 py-0.5 rounded bg-[#89858C]/10 border border-[#89858C]/20">
                 Baseline Reference State
               </span>
               <h3 className="text-base font-bold text-[#F6F0E8] mt-1">
-                {baseScenario.movie_title} ({baseScenario.genre})
+                {baseScenario.movie_title}
               </h3>
             </div>
             <span className="text-xs text-[#89858C]">Scheduled</span>
+          </div>
+
+          {/* Baseline Movie Card with Poster */}
+          <div className="p-3 rounded-xl bg-[#17171D]/80 border border-[#89858C]/20 flex items-center space-x-3.5">
+            <img
+              src={basePoster}
+              alt={baseScenario.movie_title}
+              className="w-14 h-20 object-cover rounded-lg border border-[#89858C]/30 shadow-md flex-shrink-0"
+            />
+            <div className="space-y-1 min-w-0">
+              <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-[#89858C]/20 text-[#F6F0E8]">
+                {baseScenario.genre}
+              </span>
+              <h4 className="text-sm font-bold text-[#F6F0E8] truncate">
+                {baseScenario.movie_title}
+              </h4>
+              <p className="text-[10px] text-[#89858C]">
+                Auditorium: {baseScenario.screen_id} ({baseScenario.screen_capacity} seats)
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3 text-xs">
@@ -142,7 +228,7 @@ export const SimulatorPage: React.FC = () => {
         </div>
 
         {/* Right Column: Counterfactual Simulator Controls */}
-        <div className="p-5 rounded-2xl bg-[#241018]/65 border border-[#D8B46A]/35 backdrop-blur-md space-y-4">
+        <div className="p-5 rounded-2xl bg-[#241018]/65 border border-[#D8B46A]/35 backdrop-blur-md space-y-4 shadow-xl">
           <div className="flex items-center justify-between border-b border-[#D8B46A]/20 pb-3">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#D8B46A] px-2 py-0.5 rounded bg-[#D8B46A]/15 border border-[#D8B46A]/30">
@@ -153,6 +239,26 @@ export const SimulatorPage: React.FC = () => {
               </h3>
             </div>
             <Sparkles className="w-4 h-4 text-[#D8B46A]" />
+          </div>
+
+          {/* Simulated Movie Card with Poster */}
+          <div className="p-3 rounded-xl bg-[#17171D]/80 border border-[#D8B46A]/20 flex items-center space-x-3.5">
+            <img
+              src={simPoster}
+              alt={simScenario.movie_title}
+              className="w-14 h-20 object-cover rounded-lg border border-[#D8B46A]/30 shadow-md flex-shrink-0"
+            />
+            <div className="space-y-1 min-w-0">
+              <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-[#D8B46A]/15 text-[#D8B46A]">
+                {simScenario.genre}
+              </span>
+              <h4 className="text-sm font-bold text-[#F6F0E8] truncate">
+                {simScenario.movie_title} (What-If)
+              </h4>
+              <p className="text-[10px] text-[#89858C]">
+                Reallocated to: {simScenario.screen_id} ({simScenario.screen_capacity} seats)
+              </p>
+            </div>
           </div>
 
           <div className="space-y-3.5 text-xs">
@@ -218,10 +324,10 @@ export const SimulatorPage: React.FC = () => {
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { id: 'Screen-1', cap: 350, label: 'Screen-1 (IMAX - 350)' },
-                  { id: 'Screen-2', cap: 250, label: 'Screen-2 (Atmos - 250)' },
-                  { id: 'Screen-3', cap: 180, label: 'Screen-3 (Standard - 180)' },
-                  { id: 'Screen-4', cap: 120, label: 'Screen-4 (Boutique - 120)' },
+                  { id: 'Screen-1', cap: 350, type: 'IMAX / Premium Large Format', label: 'Screen-1 (IMAX - 350)' },
+                  { id: 'Screen-2', cap: 250, type: 'Standard Dolby Atmos', label: 'Screen-2 (Atmos - 250)' },
+                  { id: 'Screen-3', cap: 180, type: 'Standard Audi', label: 'Screen-3 (Standard - 180)' },
+                  { id: 'Screen-4', cap: 120, type: 'Boutique / VIP', label: 'Screen-4 (Boutique - 120)' },
                 ].map((s) => (
                   <button
                     key={s.id}
@@ -231,6 +337,7 @@ export const SimulatorPage: React.FC = () => {
                         ...prev,
                         screen_id: s.id,
                         screen_capacity: s.cap,
+                        screen_type: s.type,
                       }));
                     }}
                     className={`p-2 rounded-xl border text-left transition-all ${
@@ -269,17 +376,17 @@ export const SimulatorPage: React.FC = () => {
               type="button"
               onClick={handleRunSimulation}
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-[#D8B46A] to-[#F4E2BD] text-[#17171D] font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg shadow-[#D8B46A]/20 hover:opacity-95 transition-all disabled:opacity-50"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#D8B46A] via-[#F4E2BD] to-[#D8B46A] text-[#17171D] font-extrabold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-xl shadow-[#D8B46A]/20 hover:opacity-95 transition-all disabled:opacity-50"
             >
               {loading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Computing Dual Inference...</span>
+                  <span>Computing Dual XGBoost Inferences...</span>
                 </>
               ) : (
                 <>
                   <SlidersHorizontal className="w-4 h-4" />
-                  <span>Simulate Counterfactual Scenario</span>
+                  <span>Run Counterfactual Simulation</span>
                 </>
               )}
             </button>
@@ -396,11 +503,23 @@ export const SimulatorPage: React.FC = () => {
 
           {/* Side by Side Comparative Breakdown */}
           <div className="grid grid-cols-2 gap-4 text-xs pt-2">
-            <div className="p-3.5 rounded-xl bg-[#17171D]/60 border border-[#89858C]/20 space-y-1.5">
-              <span className="text-[10px] uppercase font-bold text-[#89858C]">
-                Original Baseline Result
-              </span>
-              <div className="flex justify-between">
+            <div className="p-4 rounded-xl bg-[#17171D]/60 border border-[#89858C]/20 space-y-2">
+              <div className="flex items-center space-x-2">
+                <img
+                  src={basePoster}
+                  alt="Base"
+                  className="w-8 h-12 object-cover rounded border border-[#89858C]/30 flex-shrink-0"
+                />
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-[#89858C] block">
+                    Original Baseline
+                  </span>
+                  <span className="text-xs font-bold text-[#F6F0E8]">
+                    {simulationResult.base_result.screen_id} • {simulationResult.base_result.show_time}
+                  </span>
+                </div>
+              </div>
+              <div className="flex justify-between border-t border-[#89858C]/15 pt-2">
                 <span className="text-[#89858C]">Tickets Sold:</span>
                 <span className="font-bold text-[#F6F0E8]">
                   {simulationResult.base_result.predicted_tickets_sold} / {simulationResult.base_result.screen_capacity}
@@ -420,11 +539,23 @@ export const SimulatorPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#17171D]/60 border border-[#D8B46A]/30 space-y-1.5">
-              <span className="text-[10px] uppercase font-bold text-[#D8B46A]">
-                Simulated Result
-              </span>
-              <div className="flex justify-between">
+            <div className="p-4 rounded-xl bg-[#17171D]/60 border border-[#D8B46A]/30 space-y-2">
+              <div className="flex items-center space-x-2">
+                <img
+                  src={simPoster}
+                  alt="Simulated"
+                  className="w-8 h-12 object-cover rounded border border-[#D8B46A]/40 flex-shrink-0"
+                />
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-[#D8B46A] block">
+                    Simulated Scenario
+                  </span>
+                  <span className="text-xs font-bold text-[#F6F0E8]">
+                    {simulationResult.simulated_result.screen_id} • {simulationResult.simulated_result.show_time}
+                  </span>
+                </div>
+              </div>
+              <div className="flex justify-between border-t border-[#D8B46A]/15 pt-2">
                 <span className="text-[#89858C]">Tickets Sold:</span>
                 <span className="font-bold text-[#D8B46A]">
                   {simulationResult.simulated_result.predicted_tickets_sold} / {simulationResult.simulated_result.screen_capacity}

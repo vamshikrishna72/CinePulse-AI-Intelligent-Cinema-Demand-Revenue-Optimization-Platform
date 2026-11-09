@@ -17,3 +17,4 @@ def get_dashboard_summary():
         return analytics_service.get_dashboard_summary()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Dashboard summary error: {str(e)}")
+

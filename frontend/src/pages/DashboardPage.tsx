@@ -12,6 +12,10 @@ import {
   Filter,
   ArrowUpRight,
   Sparkles,
+  Info,
+  ChevronRight,
+  HelpCircle,
+  PlayCircle,
 } from 'lucide-react';
 import { MetricCard } from '../components/MetricCard';
 import { apiService } from '../services/api';
@@ -27,11 +31,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   onSelectShowForForecast,
 }) => {
   const [data, setData] = useState<DashboardSummary | null>(null);
+  const [moviesCatalog, setMoviesCatalog] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedScreen, setSelectedScreen] = useState('ALL');
   const [selectedDemand, setSelectedDemand] = useState('ALL');
+  const [showGuide, setShowGuide] = useState(false);
 
   useEffect(() => {
     loadDashboard();
@@ -41,8 +47,12 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
     setLoading(true);
     setError(null);
     try {
-      const summary = await apiService.getDashboardSummary();
+      const [summary, meta] = await Promise.all([
+        apiService.getDashboardSummary(),
+        apiService.getMetadata().catch(() => ({ movies: [] })),
+      ]);
       setData(summary);
+      setMoviesCatalog(meta.movies || []);
     } catch (err: any) {
       setError(err.message || 'Failed to connect to backend service.');
     } finally {
@@ -91,7 +101,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   return (
     <div className="space-y-6">
       {/* Executive Welcome & Context Header */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-[#241018] via-[#241018]/80 to-[#17171D] border border-[#D8B46A]/25 relative overflow-hidden shadow-2xl">
+      <div className="p-6 rounded-2xl bg-gradient-to-r from-[#241018] via-[#241018]/85 to-[#17171D] border border-[#D8B46A]/25 relative overflow-hidden shadow-2xl">
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <div className="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-[#D8B46A]/15 text-[#D8B46A] text-xs font-semibold border border-[#D8B46A]/30">
@@ -108,6 +118,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
           <div className="flex flex-wrap items-center gap-3">
             <button
+              onClick={() => setShowGuide(!showGuide)}
+              className="px-3 py-2 rounded-xl bg-[#241018] text-[#D8B46A] font-semibold text-xs border border-[#D8B46A]/30 flex items-center space-x-1.5 hover:bg-[#D8B46A]/10 transition-all"
+            >
+              <HelpCircle className="w-4 h-4" />
+              <span>{showGuide ? 'Hide User Guide' : 'How It Works'}</span>
+            </button>
+            <button
               onClick={() => onNavigate('forecast')}
               className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#D8B46A] to-[#F4E2BD] text-[#17171D] font-bold text-xs flex items-center space-x-2 shadow-lg shadow-[#D8B46A]/15 hover:opacity-95 transition-all"
             >
@@ -122,6 +139,134 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
               <span>What-If Simulator</span>
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* User-Friendly "How It Works" Guide Card */}
+      {showGuide && (
+        <div className="p-5 rounded-2xl bg-[#241018]/80 border border-[#D8B46A]/40 backdrop-blur-md shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-[#D8B46A]/20 pb-3">
+            <div className="flex items-center space-x-2">
+              <Info className="w-5 h-5 text-[#D8B46A]" />
+              <h3 className="text-sm font-bold text-[#F6F0E8] uppercase tracking-wider">
+                User Guide: How Cinema Managers Use CinePulse AI
+              </h3>
+            </div>
+            <button
+              onClick={() => setShowGuide(false)}
+              className="text-xs text-[#89858C] hover:text-[#F6F0E8]"
+            >
+              Dismiss ✕
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+            <div className="p-3.5 rounded-xl bg-[#17171D] border border-[#D8B46A]/20 space-y-1.5">
+              <div className="flex items-center space-x-2 font-bold text-[#D8B46A]">
+                <span className="w-5 h-5 rounded-full bg-[#D8B46A]/20 text-[#D8B46A] flex items-center justify-center text-xs">
+                  1
+                </span>
+                <span>Predict Demand</span>
+              </div>
+              <p className="text-[#89858C] text-[11px] leading-relaxed">
+                Our machine learning model predicts exactly how many tickets will sell 24 hours before each show starts.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[#17171D] border border-[#D8B46A]/20 space-y-1.5">
+              <div className="flex items-center space-x-2 font-bold text-[#D8B46A]">
+                <span className="w-5 h-5 rounded-full bg-[#D8B46A]/20 text-[#D8B46A] flex items-center justify-center text-xs">
+                  2
+                </span>
+                <span>Understand Drivers</span>
+              </div>
+              <p className="text-[#89858C] text-[11px] leading-relaxed">
+                SHAP Explainable AI shows exactly why demand is high or low (e.g. evening slot, weekend, price, star power).
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[#17171D] border border-[#D8B46A]/20 space-y-1.5">
+              <div className="flex items-center space-x-2 font-bold text-[#D8B46A]">
+                <span className="w-5 h-5 rounded-full bg-[#D8B46A]/20 text-[#D8B46A] flex items-center justify-center text-xs">
+                  3
+                </span>
+                <span>Simulate Changes</span>
+              </div>
+              <p className="text-[#89858C] text-[11px] leading-relaxed">
+                Test &quot;What-If&quot; scenarios: see what happens if you change the showtime, adjust ticket price, or switch to a bigger screen.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-[#17171D] border border-[#D8B46A]/20 space-y-1.5">
+              <div className="flex items-center space-x-2 font-bold text-[#D8B46A]">
+                <span className="w-5 h-5 rounded-full bg-[#D8B46A]/20 text-[#D8B46A] flex items-center justify-center text-xs">
+                  4
+                </span>
+                <span>Take Action</span>
+              </div>
+              <p className="text-[#89858C] text-[11px] leading-relaxed">
+                Receive operational advice: deploy more snack bar staff for busy shows and move underperforming movies to smaller screens.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Featured Now Showing Movies Visual Showcase with Post-Processing Images */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Film className="w-4 h-4 text-[#D8B46A]" />
+            <h3 className="text-sm font-bold text-[#F6F0E8] uppercase tracking-wider">
+              Now Showing Movie Catalog
+            </h3>
+          </div>
+          <span className="text-xs text-[#89858C]">Click any movie to forecast its demand</span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
+          {moviesCatalog.slice(0, 7).map((m: any) => (
+            <div
+              key={m.id}
+              onClick={() => {
+                if (onSelectShowForForecast) {
+                  onSelectShowForForecast({
+                    movie_title: m.title,
+                    genre: m.genre,
+                    movie_popularity: m.popularity,
+                    poster_url: m.poster_url,
+                  });
+                }
+                onNavigate('forecast');
+              }}
+              className="group cursor-pointer rounded-xl overflow-hidden bg-[#241018]/60 border border-[#D8B46A]/20 hover:border-[#D8B46A] transition-all duration-300 hover:shadow-xl hover:shadow-[#D8B46A]/10 flex flex-col"
+            >
+              <div className="relative aspect-[2/3] w-full overflow-hidden bg-[#17171D]">
+                <img
+                  src={m.poster_url}
+                  alt={m.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#17171D] via-transparent to-transparent opacity-80" />
+                <span className="absolute top-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#17171D]/80 text-[#D8B46A] border border-[#D8B46A]/30">
+                  ★ {m.popularity}
+                </span>
+                <span className="absolute bottom-2 left-2 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#241018]/90 text-[#F6F0E8] border border-[#D8B46A]/20">
+                  {m.genre}
+                </span>
+              </div>
+              <div className="p-2.5 flex-1 flex flex-col justify-between space-y-1">
+                <h4 className="text-xs font-bold text-[#F6F0E8] truncate group-hover:text-[#D8B46A] transition-colors">
+                  {m.title}
+                </h4>
+                <div className="flex items-center justify-between text-[10px] text-[#89858C]">
+                  <span>Forecast Demand</span>
+                  <ChevronRight className="w-3 h-3 text-[#D8B46A] group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -282,7 +427,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
         </div>
       </div>
 
-      {/* Live Show Demand Board Table */}
+      {/* Live Show Demand Board Table with Movie Posters */}
       <div className="p-5 rounded-2xl bg-[#241018]/45 border border-[#D8B46A]/15 backdrop-blur-md space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
@@ -334,13 +479,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
           </div>
         </div>
 
-        {/* Table */}
+        {/* Table with Poster Thumbnails */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-[#D8B46A]/15 text-[#89858C] uppercase tracking-wider text-[10px]">
                 <th className="py-3 px-3">Show ID</th>
-                <th className="py-3 px-3">Movie & Genre</th>
+                <th className="py-3 px-3">Movie & Poster</th>
                 <th className="py-3 px-3">Date & Time</th>
                 <th className="py-3 px-3">Screen</th>
                 <th className="py-3 px-3">Price</th>
@@ -358,6 +503,9 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                 const occPct = ((predTickets / cap) * 100).toFixed(1);
                 const rev = Math.round(predTickets * show.ticket_price);
                 const isCold = show.is_cold_start;
+                const posterUrl =
+                  show.poster_url ||
+                  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80';
 
                 return (
                   <tr
@@ -368,15 +516,25 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
                       {show.show_id}
                     </td>
                     <td className="py-3 px-3">
-                      <div className="font-semibold text-[#F6F0E8] flex items-center space-x-1.5">
-                        <span>{show.movie_title}</span>
-                        {isCold && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-950/70 text-amber-300 border border-amber-500/30 font-medium">
-                            Cold-Start
-                          </span>
-                        )}
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={posterUrl}
+                          alt={show.movie_title}
+                          className="w-10 h-14 rounded-lg object-cover border border-[#D8B46A]/30 flex-shrink-0 shadow-md group-hover:scale-105 transition-transform"
+                          loading="lazy"
+                        />
+                        <div>
+                          <div className="font-semibold text-[#F6F0E8] flex items-center space-x-1.5">
+                            <span className="group-hover:text-[#D8B46A] transition-colors">{show.movie_title}</span>
+                            {isCold && (
+                              <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-950/70 text-amber-300 border border-amber-500/30 font-medium">
+                                Cold-Start
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[11px] text-[#89858C]">{show.genre}</span>
+                        </div>
                       </div>
-                      <span className="text-[11px] text-[#89858C]">{show.genre}</span>
                     </td>
                     <td className="py-3 px-3">
                       <div className="text-[11px] font-medium">{show.show_date}</div>
