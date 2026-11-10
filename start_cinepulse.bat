@@ -18,3 +18,4 @@ echo   Backend Swagger Docs: http://localhost:8000/docs
 echo ======================================================================
 timeout /t 5 >nul
 start http://localhost:5173
+

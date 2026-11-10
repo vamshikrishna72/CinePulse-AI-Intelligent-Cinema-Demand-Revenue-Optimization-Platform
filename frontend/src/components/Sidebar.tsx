@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   LayoutDashboard,
+  Film,
   TrendingUp,
   BarChart3,
   SlidersHorizontal,
@@ -12,6 +13,7 @@ import {
 
 export type NavTabId =
   | 'dashboard'
+  | 'showtimes'
   | 'forecast'
   | 'analytics'
   | 'simulator'
@@ -29,21 +31,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
   const navItems = [
     {
       id: 'dashboard' as NavTabId,
-      label: 'Control Center',
-      description: 'Multiplex Overview & Live Board',
+      label: 'Movies & Home',
+      description: 'BookMyShow Catalog & KPIs',
       icon: LayoutDashboard,
+    },
+    {
+      id: 'showtimes' as NavTabId,
+      label: 'Theaters & Showtimes',
+      description: 'Color-Coded Screen Schedules',
+      icon: Film,
     },
     {
       id: 'forecast' as NavTabId,
       label: 'Demand Forecasting',
       description: 'Show-Level ML Inference',
       icon: TrendingUp,
-    },
-    {
-      id: 'analytics' as NavTabId,
-      label: 'Operational Analytics',
-      description: 'Daily Trends & Screen Usage',
-      icon: BarChart3,
     },
     {
       id: 'simulator' as NavTabId,
@@ -53,35 +55,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
     },
     {
       id: 'coldstart' as NavTabId,
-      label: 'Cold-Start Intelligence',
-      description: 'New Releases & Prior Anchoring',
+      label: 'Cold-Start AI',
+      description: 'Premiere & New Release Priors',
       icon: Sparkles,
     },
     {
-      id: 'models' as NavTabId,
-      label: 'Model Intelligence',
-      description: 'Leaderboard & Evaluation Diagnostics',
-      icon: BrainCircuit,
-    },
-    {
       id: 'recommendations' as NavTabId,
-      label: 'Smart Recommendations',
+      label: 'Recommendations',
       description: 'Staffing & Screen Allocation',
       icon: Lightbulb,
     },
     {
+      id: 'analytics' as NavTabId,
+      label: 'Operational Analytics',
+      description: 'Daily Trends & Multiplex Usage',
+      icon: BarChart3,
+    },
+    {
+      id: 'models' as NavTabId,
+      label: 'Model Audit',
+      description: 'Leaderboard & Evaluation Metrics',
+      icon: BrainCircuit,
+    },
+    {
       id: 'docs' as NavTabId,
-      label: 'Architecture & AI Ethics',
+      label: 'Architecture & Ethics',
       description: 'Methodology, Scope & Governance',
       icon: FileText,
     },
   ];
 
   return (
-    <aside className="w-64 bg-[#17171D] border-r border-[#D8B46A]/15 min-h-[calc(100vh-65px)] flex flex-col justify-between p-4">
-      <div className="space-y-1.5">
-        <div className="px-3 py-2 text-[11px] font-semibold tracking-wider text-[#89858C] uppercase">
-          Navigation Modules
+    <aside className="w-64 bg-[#17171D] border-r border-white/10 min-h-[calc(100vh-105px)] flex flex-col justify-between p-3.5 hidden md:flex">
+      <div className="space-y-1">
+        <div className="px-3 py-2 text-[10px] font-black tracking-widest text-neutral-400 uppercase">
+          Cinema Modules
         </div>
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -90,49 +98,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-start space-x-3 px-3.5 py-3 rounded-xl text-left transition-all duration-200 group ${
+              className={`w-full flex items-start space-x-3 px-3 py-2.5 rounded-xl text-left transition-all duration-200 group ${
                 isActive
-                  ? 'bg-gradient-to-r from-[#241018] to-[#241018]/60 text-[#F6F0E8] border border-[#D8B46A]/40 shadow-md shadow-[#D8B46A]/5'
-                  : 'text-[#89858C] hover:text-[#F6F0E8] hover:bg-[#241018]/30'
+                  ? 'bg-[#1E202B] text-white border border-[#F84464]/60 shadow-lg shadow-[#F84464]/10 font-bold'
+                  : 'text-neutral-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <div
                 className={`mt-0.5 p-1.5 rounded-lg transition-colors ${
                   isActive
-                    ? 'bg-[#D8B46A] text-[#17171D]'
-                    : 'bg-[#241018]/60 text-[#89858C] group-hover:text-[#D8B46A]'
+                    ? 'bg-[#F84464] text-white'
+                    : 'bg-white/5 text-neutral-400 group-hover:text-white group-hover:bg-white/10'
                 }`}
               >
                 <Icon className="w-4 h-4" />
               </div>
-              <div className="flex-1 overflow-hidden">
-                <div
-                  className={`text-sm font-medium leading-none ${
-                    isActive ? 'text-[#F6F0E8] font-semibold' : 'text-[#c7c4c8]'
-                  }`}
-                >
-                  {item.label}
-                </div>
-                <div className="text-[11px] text-[#89858C] truncate mt-1">
+              <div className="space-y-0.5 min-w-0">
+                <span className="text-xs block truncate">{item.label}</span>
+                <span className="text-[10px] text-neutral-500 block truncate group-hover:text-neutral-400">
                   {item.description}
-                </div>
+                </span>
               </div>
             </button>
           );
         })}
       </div>
 
-      {/* Decision Support Advisory Card */}
-      <div className="p-3.5 rounded-xl bg-gradient-to-b from-[#241018]/60 to-[#17171D] border border-[#D8B46A]/20 mt-6">
-        <div className="flex items-center space-x-2 text-xs font-semibold text-[#D8B46A]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D8B46A]"></span>
-          <span>Decision Support Mode</span>
+      {/* Footer Branding Info */}
+      <div className="p-3 rounded-xl bg-[#1E202B] border border-white/5 space-y-1 text-center">
+        <div className="text-[10px] font-bold text-white uppercase tracking-wider">
+          Algions AI Labs Private Limited
         </div>
-        <p className="text-[11px] text-[#89858C] mt-1.5 leading-relaxed">
-          CinePulse provides advisory forecasts with uncertainty bands to empower cinema managers. Automated operational overrides are disabled.
-        </p>
+        <div className="text-[9px] text-neutral-400">
+          BookMyShow-Style Demand Platform v2.4
+        </div>
       </div>
     </aside>
   );
 };
-

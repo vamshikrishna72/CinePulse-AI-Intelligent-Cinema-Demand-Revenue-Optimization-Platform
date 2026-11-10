@@ -2,6 +2,11 @@
 
 @layer base {
   :root {
+    --bms-red: #F84464;
+    --bms-red-hover: #E03150;
+    --bms-dark: #333545;
+    --bms-nav: #222433;
+    --bms-navy: #2B3148;
     --bg-burgundy: #241018;
     --bg-charcoal: #17171D;
     --text-ivory: #F6F0E8;
@@ -19,6 +24,39 @@
     padding: 0;
     overflow-x: hidden;
   }
+}
+
+/* BookMyShow Specific Styling Utilities */
+.bms-btn-primary {
+  background-color: #F84464;
+  color: #FFFFFF;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.bms-btn-primary:hover {
+  background-color: #E03150;
+  box-shadow: 0 4px 14px rgba(248, 68, 100, 0.35);
+}
+
+.bms-badge-premiere {
+  background-color: #F84464;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.bms-rating-overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.95) 100%);
+}
+
+.bms-premiere-banner {
+  background: linear-gradient(135deg, #1A1F30 0%, #2B3148 50%, #171B2A 100%);
+  border-top: 1px solid rgba(248, 68, 100, 0.25);
+  border-bottom: 1px solid rgba(248, 68, 100, 0.25);
 }
 
 /* Custom Cinema Design Utility Classes */
@@ -83,5 +121,5 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D8B46A;
+  background: #F84464;
 }

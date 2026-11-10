@@ -55,3 +55,4 @@ To maintain scientific validity:
 1. **Target Isolation:** `tickets_sold`, `occupancy_rate`, `revenue`, and `empty_seats` for show $i$ are strictly prohibited from entering feature vectors for show $i$.
 2. **24-Hour Lookahead Curtain:** Shows concluding within 24 hours of target showtime $T_i$ are excluded from `historical_movie_demand`, `historical_genre_demand`, and `previous_show_occupancy`.
 3. **Partition Disjointness:** Train end timestamp (`2024-05-04 22:45`) is strictly earlier than Validation start timestamp (`2024-05-05 10:15`), which is strictly earlier than Test start timestamp (`2024-06-02 10:15`).
+

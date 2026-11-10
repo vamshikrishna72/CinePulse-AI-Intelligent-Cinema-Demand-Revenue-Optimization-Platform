@@ -376,7 +376,7 @@ export const SimulatorPage: React.FC = () => {
               type="button"
               onClick={handleRunSimulation}
               disabled={loading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#D8B46A] via-[#F4E2BD] to-[#D8B46A] text-[#17171D] font-extrabold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-xl shadow-[#D8B46A]/20 hover:opacity-95 transition-all disabled:opacity-50"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#F84464] to-[#E03150] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-xl shadow-[#F84464]/30 hover:opacity-95 transition-all disabled:opacity-50"
             >
               {loading ? (
                 <>
