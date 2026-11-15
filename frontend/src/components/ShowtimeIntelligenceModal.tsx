@@ -405,3 +405,4 @@ export const ShowtimeIntelligenceModal: React.FC<ShowtimeModalProps> = ({
     </div>
   );
 };
+

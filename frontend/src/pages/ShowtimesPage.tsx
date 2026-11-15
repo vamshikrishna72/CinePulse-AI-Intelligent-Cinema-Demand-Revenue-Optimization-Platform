@@ -350,3 +350,4 @@ export const ShowtimesPage: React.FC<ShowtimesPageProps> = ({
     </div>
   );
 };
+

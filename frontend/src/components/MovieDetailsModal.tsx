@@ -153,3 +153,4 @@ export const MovieDetailsModal: React.FC<MovieDetailsModalProps> = ({
     </div>
   );
 };
+
